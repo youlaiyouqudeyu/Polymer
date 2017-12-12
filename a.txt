@@ -1,1 +1,2 @@
- w o shi xiaoming
+Git is free software 修改为:
+Git is a free software.
