@@ -1,3 +1,4 @@
 My test file
 add test
-
+git tracks changes.
+git has a mutable inde called stage.
