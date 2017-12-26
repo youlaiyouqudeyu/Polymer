@@ -1,0 +1,8 @@
+{
+  "name": "exhibition",
+  "short_name": "exhibition",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#fff",
+  "background_color": "#fff"
+}
