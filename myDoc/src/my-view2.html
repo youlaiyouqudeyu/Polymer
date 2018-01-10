@@ -1,0 +1,93 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="shared-styles.html">
+
+<script src="../bower_components/echarts/dist/echarts.common.min.js"></script>
+<dom-module id="my-view2">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        padding: 10px;
+        background: darkgray;
+      }
+    </style>
+
+    <!--<div class="card">-->
+      <!--<div class="circle">2</div>-->
+      <!--<h1>View Two</h1>-->
+      <!--<p>Ea duis bonorum nec, falli paulo aliquid ei eum.</p>-->
+      <!--<p>Id nam odio natum malorum, tibique copiosae expetenda mel ea.Detracto suavitate repudiandae no eum. Id adhuc minim soluta nam.Id nam odio natum malorum, tibique copiosae expetenda mel ea.</p>-->
+    <!--</div>-->
+    <div id="main"></div>
+  </template>
+
+  <script>
+    class MyView2 extends Polymer.Element {
+      static get is() { return 'my-view2'; }
+      connectedCallback() {
+          super.connectedCallback();
+          this._myChart(this.$.main);
+      }
+
+      _myChart(dom) {
+          var myChart = echarts.init(dom);
+          var option = {
+              'title': {
+                  text:'粮情',
+                  link: 'https://www.baidu.com',
+                  subtext: '温度统计',
+
+              },
+              legend: {
+                  type: 'scroll',
+                  bottom: 10,
+                  data: (function(){
+                      var list = [];
+                      for(var i=0; i<=28; i++){
+                          list.push(i + 2000  + '' );
+                      }
+                      return list;
+                  })()
+              },
+              tooltip: {
+                  trigger: 'item',
+                  formatter: '{a} <br/>{b} : {c} ({d}%)'
+              },
+//              legend: {
+//                  type: 'scroll',
+//
+//                  data: ['A', 'B', 'C']
+//              },
+              'series': [{
+                  name: '温度',
+                  type: 'pie',
+                  data: [
+                      { name: 'A', value: 10},
+                      { name: 'B', value: 12},
+                      { name: 'C', value: 12}
+                  ]
+              }]
+          };
+          myChart.setOption(option);
+          myChart.resize({width: 230, height: 200});
+          myChart.dispatchAction({
+              type: 'highlight',
+              seriesIndex: 0
+          })
+
+      }
+    }
+
+    window.customElements.define(MyView2.is, MyView2);
+  </script>
+</dom-module>

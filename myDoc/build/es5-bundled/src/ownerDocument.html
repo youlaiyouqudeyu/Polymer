@@ -1,0 +1,55 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="owner-document">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+
+    </style>
+
+    <div class="card">
+      <div class="circle">3</div>
+      <h1>Syntax</h1>
+      <p>var doc = node.ownerDocument;&nbsp;&nbsp;&nbsp;    //#document of the current node</p>
+
+
+
+      <h1>Example Usage</h1>
+      <xmp>
+        <body>
+        <div id="nd" name="nd" name1="1" name2="2"></div>
+        </body>
+        <script>
+
+            let node = document.querySelector('nd');
+            let t = node;
+
+            t.removeAttribute('name');
+            node = t.ownerDocument.createElement('dom-if');   //custom-element 'dom-if'
+            t.parentNode.replaceChild(node,t);    //'dom-if' instead of div
+            node.appendChild(t);
+
+            while(t.attributes.length) {
+                node.setAttribute(t.attributes[0].name, t.attributes[0].value);
+                t.removeAttribute(t.attributes[0].name);
+            }
+        </script>
+
+      </xmp>
+    </div>
+  </template>
+
+  <script>
+      class ownerDocument extends Polymer.Element {
+          static get is() { return 'owner-document'; }
+
+      }
+
+      window.customElements.define(ownerDocument.is, ownerDocument);
+  </script>
+</dom-module>

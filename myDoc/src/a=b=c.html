@@ -1,0 +1,60 @@
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="a-b-c">
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+
+                padding: 10px;
+            }
+
+        </style>
+
+        <div class="card">
+            <div class="circle">4</div>
+            <h1>JS连等操作问题</h1>
+            <strong>正常情况下</strong>
+            <xmp>
+                var a = {n: 1};
+                var b = a = {n: 2};
+                console.log(b);  //{n: 2}
+            </xmp>
+            <br>
+            <strong>特殊情况1</strong>
+            <xmp>
+                var a = {n: 1};
+                a.x = a = {n: 2};
+                console.log(a.x);  //undefined
+                console.log(a);   //{n: 2}
+            </xmp>
+            <strong>特殊情况2</strong>
+            <xmp>
+                var a = {n: 1};
+                var b = a;
+                a.x = a = {n: 2};
+                console.log(a.x);  //undefined
+                console.log(a);   //{n: 2}
+                console.log(b)   //{n: 1, x: {n: 2} }
+                console.log(a === b.x}  //true
+            </xmp>
+            <p>'var a = {n: 1}': 开辟一块内存, data = {n: 1}, a指向内存data的副本</p>
+            <p>'var b = a': b指向内存data副本</p>
+            <p>’a.x = a = {n: 2}' 在a指向的副本计算结果是 {n: 1, x: {n: 2}}</p>
+            <p>a 使用 内存data时,会根据垃圾回收机制进行优化,由于{n: 1} 不再使用，优化结果返回 a={n：&nbsp;2}</p>
+            <p>如果 b 也在使用 data,则 b 会拷贝 未优化的a</p>
+            <strong>纯属个人观点 (*_*)</strong>
+        </div>
+    </template>
+
+    <script>
+        class ABC extends Polymer.Element {
+            static get is() { return 'a-b-c'; }
+
+        }
+
+        window.customElements.define(ABC.is, ABC);
+    </script>
+</dom-module>

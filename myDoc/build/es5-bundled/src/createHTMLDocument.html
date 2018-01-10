@@ -1,0 +1,63 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="create-html-document">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+
+    </style>
+
+    <div class="card">
+      <div class="circle">1</div>
+      <h1>Syntax</h1>
+      <p>newDoc = document.implementation.createHTMLDocument(title);</p>
+
+      <h1>Example</h1>
+      <strong>Here'is the HTML for example:</strong>
+      <xmp>
+        <body>
+        <p>Click <a href="javascript:makeDocument()">here</a> to create a new document and insert it below.</p>
+        <iframe id="theFrame" src="about:blank" />
+        </body>
+      </xmp>
+      <strong>The Javascript implementation of the makeDocument() method follows:</strong>
+      <xmp>
+        function makeDocument() {
+        var frame = document.getElementById("theFrame");
+
+        var doc = document.implementation.createHTMLDocument("New Document");
+        var p = doc.createElement("p");
+        p.innerHTML = "This is a new paragraph.";
+
+        try {
+        doc.body.appendChild(p);
+        } catch(e) {
+        console.log(e);
+        }
+
+        // Copy the new HTML document into the frame
+
+        var destDocument = frame.contentDocument;
+        var srcNode = doc.documentElement;
+        var newNode = destDocument.importNode(srcNode, true);
+
+        destDocument.replaceChild(newNode, destDocument.documentElement);
+        }
+      </xmp>
+    </div>
+  </template>
+
+  <script>
+      class CreateHtmlDocument extends Polymer.Element {
+          static get is() { return 'create-html-document'; }
+
+      }
+
+      window.customElements.define(CreateHtmlDocument.is, CreateHtmlDocument);
+  </script>
+</dom-module>

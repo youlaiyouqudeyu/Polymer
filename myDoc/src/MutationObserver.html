@@ -1,0 +1,78 @@
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="mutation-observer">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+
+    </style>
+
+    <div class="card">
+      <div class="circle">2</div>
+      <h1>Syntax</h1>
+      <p>newObs = new window.MutationObserver(callback);</p>
+
+      <h1>Instance methods</h1>
+      <p>void observe( Node target, MutationObserverInit options );</p>
+      <p>void disconnect();//取消监测</p>
+      <p>Array takeRecords();//清空MutationObserver实例的记录队列并返回里面的内容。</p>
+
+      <h1>MutationObserverInit</h1>
+      <xmp>
+        属性	                    描述
+        childList	            设置为true是否要观察目标节点的子元素（包括文本节点）的添加和删除。
+        attributes	            设置为true如果要观察到目标属性的突变。
+        characterData	        设置为true如果要观察目标数据的突变。
+        subtree	                设定true是否要观察到目标和目标的后代突变。
+        attributeOldValue	    设置为true，如果attributes设置为true需要记录突变之前和目标的属性值。
+        characterDataOldValue	需要记录突变之前，设置为true如果characterData设置为true和目标数据。
+        attributeFilter	        如果不是所有的属性突变都需要被观察，则设置为属性本地名称（不带名称空间）的数组。
+      </xmp>
+
+      <h1>Example Usage</h1>
+      <xmp>
+        // Select the node that will be observed for mutations
+        var targetNode = document.getElementById('some-id');
+
+        // Options for the observer (which mutations to observe)
+        var config = { attributes: true, childList: true };
+
+        // Callback function to execute when mutations are observed
+        var callback = function(mutationsList) {
+        for(var mutation of mutationsList) {
+        if (mutation.type == 'childList') {
+        console.log('A child node has been added or removed.');
+        }
+        else if (mutation.type == 'attributes') {
+        console.log('The ' + mutation.attributeName + ' attribute was modified.');
+        }
+        }
+        };
+
+        // Create an observer instance linked to the callback function
+        var observer = new MutationObserver(callback);
+
+        // Start observing the target node for configured mutations
+        observer.observe(targetNode, config);
+
+        // Later, you can stop observing
+        observer.disconnect();
+      </xmp>
+    </div>
+  </template>
+
+  <script>
+      class MutationObserver extends Polymer.Element {
+          static get is() { return 'mutation-observer'; }
+
+      }
+
+      window.customElements.define(MutationObserver.is, MutationObserver);
+  </script>
+</dom-module>
